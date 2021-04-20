@@ -1,0 +1,1 @@
+點產檔案bat 或者 CMD輸入node makefile.js
