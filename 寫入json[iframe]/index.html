@@ -1,0 +1,26 @@
+<html>
+
+<button type="text" id="SELECT" onclick="changeSrc()">一鍵產檔
+</button>
+<input type="text" id="input">
+<label id="BACK">111</label>
+</br>
+
+<!-- 用隱藏的iframe訪問後端server -->
+<iframe id="POST" style="display:none" src=""></iframe>
+
+
+</html>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+
+
+	function changeSrc() {
+		var url = "http://localhost:8081/write" ;
+		document.getElementById("POST").src = url;
+		
+	}
+
+
+
+</script>
