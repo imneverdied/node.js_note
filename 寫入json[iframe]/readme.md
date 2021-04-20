@@ -1,3 +1,5 @@
+前置作業 安裝http-server</br>
+
 安裝chrome瀏覽器在 "C:\Program Files\Google\Chrome\Application\chrome.exe" </br>
 ▼</br>
 開啟後端Server.bat</br>
