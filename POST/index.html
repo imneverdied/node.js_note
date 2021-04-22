@@ -1,0 +1,46 @@
+<html>
+<header>
+
+
+</header>
+
+
+
+<button type="text" id="SELECT">一鍵產檔
+</button>
+<input type="text" id="input">
+<label id="BACK">輸入write在案按鈕，會產出檔案data.json</label>
+</br>
+
+
+
+</html>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+
+
+	$(SELECT).click(function () {
+
+		var DT = $(input).val();
+		$.post("http://localhost:8081/", DT,
+			function (data) {
+				alert("Data Loaded: " + data);
+				$(BACK).text(data);
+			});
+
+
+		// 		$.ajax({
+		// 		url: 'http://localhost:8081/',
+		// 		headers: {
+		// 			'Content-Type':'application/json',
+		// 		},
+		// 		method: 'POST',
+		// 		dataType: 'json',
+		// 		data: $(input).val(),
+		// 		success: function(data){
+		// 		   console.log(data);
+		// 		}
+		//   });
+
+	});
+</script>
