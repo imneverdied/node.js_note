@@ -9,6 +9,6 @@ sever.js 後端server</br>
 初始設定dataALL.txt</br>
 接收前端網頁的POST</br>
 把POST RESPONSE記錄在dataALL.txt</br>
-回傳 已收到POST:[內容]
+回傳 已收到POST:[內容]顯示在前端網頁上
 
 同時顯示log在後端server CMD裡
