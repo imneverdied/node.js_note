@@ -6,7 +6,7 @@ node.js POST
 安裝   [chrome ](https://www.google.com/intl/zh-TW/chrome/)在 "C:\Program Files\Google\Chrome\Application\chrome.exe" </br>
 
 sever.js 後端server</br>
-初始設定dataS.txt dataR.txt</br>
+初始設定dataALL.txt</br>
 接收前端網頁的POST</br>
 把POST RESPONSE記錄在dataALL.txt</br>
 
