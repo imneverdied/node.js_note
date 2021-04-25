@@ -14,7 +14,7 @@ var server = http.createServer(function (Q, S) {
             var logPOST = currentDateTime + ' [POST]:' + JSON.parse(jsonString);
             outfile('./dataS.txt', logPOST);
             console.log('[' + OTF + ']' + logPOST);
-			
+
 
             Q.on('end', function () {
 
@@ -43,17 +43,8 @@ var server = http.createServer(function (Q, S) {
 });
 
 server.listen(8081);
-
-const fs = require('fs')
-// 初始設定資料
-fs.writeFile('./dataR.txt', '',function (error) {
-  if(error!=null)console.log(error)
-  console.log('dataR.txt創建成功')
-})
-fs.writeFile('./dataS.txt', '',function (error) {
-  if(error!=null)console.log(error)
-  console.log('dataS.txt創建成功')
-})
+Fexists('./dataR.txt', 'dataR.txt')
+Fexists('./dataS.txt', 'dataS.txt')
 console.log('Node.js web server at port 8081 is running..')
 
 function paddingLeft(str) {
@@ -76,25 +67,40 @@ function getTime() {
     return currentDateTime;
 }
 
+
 function outfile(src, logTXT) {
-    //產檔案
+    //把文字寫入檔案
     const fs = require('fs')
-    fs.readFile(src, function (error, data) {
+
+    logTXT = logTXT + '\r\n';
+    fs.appendFile(src, logTXT, function (error) {
         if (error != null) {
-            console.log(error)
+            OTF = '✘';
+            console.log('[' + OTF + ']' + error);
         }
-        else {
-            var oldTXT = '';
-            oldTXT += data;
-            logTXT = oldTXT + logTXT + '\r\n';
-            fs.writeFile(src, logTXT, function (error) {
-                if (error != null) {
-                    console.log(error);
-                    OTF = '✘';
-                }
-                else { OTF = '✔'; }
-            });
-        }
-    })
+        else { OTF = '✔'; }
+    });
 
 }
+
+
+function Fexists(src, name) {
+    //確認檔案是否存在，不存在則創建檔案
+    const fs = require('fs')
+
+    fs.access(src, (err) => {
+        if (!err) {
+            return;
+        }
+        else {
+            fs.writeFile(src, '', function (error) {
+                if (error != null) console.log(error)
+                console.log(name + '創建成功')
+            })
+
+        }
+    });
+
+}
+
+
