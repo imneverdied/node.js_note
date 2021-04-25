@@ -7,12 +7,14 @@ var server = http.createServer(function (Q, S) {
         var jsonString = '';
 
         Q.on('data', function (data) {
+
             jsonString += data;
 
             var currentDateTime = getTime();
 
-            var logPOST = currentDateTime + ' [POST]:' + JSON.parse(jsonString);
-            outfile('./dataS.txt', logPOST);
+            var logPOST = currentDateTime + ' [POST]:' + jsonString;
+            //outfile('./dataS.txt', logPOST);
+            outfile('./dataALL.txt', '[' + OTF + ']' + logPOST);
             console.log('[' + OTF + ']' + logPOST);
 
 
@@ -20,22 +22,30 @@ var server = http.createServer(function (Q, S) {
 
                 var currentDateTime = getTime();
 
-                S.writeHead(200, { 'Content-Type': 'application/json' });
-                var XX = parseInt(jsonString)
+                S.writeHead(200, {
+                    'Content-Type': 'application/json',
+                    'Access-Control-Allow-Origin': '*'
+                });
+                var XX = jsonString
 
                 //主要處理運算
-                XX = Math.sqrt(XX)
-                var YY = String(XX)
+                // XX = Math.sqrt(XX)
+                // var YY = String(XX)
                 //主要處理運算
 
-                S.write(YY);
 
-                var logRESPONSE = currentDateTime + ' [RESP]:' + YY;
-                outfile('./dataR.txt', logRESPONSE);
+
+                var logRESPONSE = currentDateTime + ' [RESP]:' + jsonString;
+                //outfile('./dataR.txt', logRESPONSE);
+                outfile('./dataALL.txt', '[' + OTF + ']' + logRESPONSE);
                 console.log('[' + OTF + ']' + logRESPONSE);
 
-                var msg = JSON.stringify(YY);
-                S.end(msg);
+                //var msgSSS = JSON.stringify(jsonString);
+
+                //S.write(jsonString, 'UTF-8');
+                var msg = jsonString;
+
+                S.end();
 
             });
         })
@@ -43,8 +53,9 @@ var server = http.createServer(function (Q, S) {
 });
 
 server.listen(8081);
-Fexists('./dataR.txt', 'dataR.txt')
-Fexists('./dataS.txt', 'dataS.txt')
+// Fexists('./dataR.txt', 'dataR.txt')
+// Fexists('./dataS.txt', 'dataS.txt')
+Fexists('./dataALL.txt', 'dataALL.txt')
 console.log('Node.js web server at port 8081 is running..')
 
 function paddingLeft(str) {
