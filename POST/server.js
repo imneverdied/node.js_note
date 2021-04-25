@@ -40,9 +40,10 @@ var server = http.createServer(function (Q, S) {
                 outfile('./dataALL.txt', '[' + OTF + ']' + logRESPONSE);
                 console.log('[' + OTF + ']' + logRESPONSE);
 
-                //var msgSSS = JSON.stringify(jsonString);
+                jsonString = '已收到POST:' + jsonString;
+                var msgSSS = JSON.stringify(jsonString);
 
-                //S.write(jsonString, 'UTF-8');
+                S.write(msgSSS, 'UTF-8');
                 var msg = jsonString;
 
                 S.end();
