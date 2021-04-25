@@ -21,10 +21,14 @@
 
 	$(SELECT).click(function () {
 
-		var DT = $(input).val();
-		$.post("http://localhost:8081/", DT,
+		// var DT = {
+		// 	TEXT: $(input).val()
+		// }
+
+
+		$.post("http://localhost:8081/", $(input).val(),
 			function (data) {
-				alert("Data Loaded: " + data);
+				//alert("Data Loaded: " + data);
 				$(BACK).text(data);
 			});
 
