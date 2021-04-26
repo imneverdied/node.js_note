@@ -9,10 +9,13 @@ var server = http.createServer(function (Q, S) {
         Q.on('data', function (data) {
 
             jsonString += data;
-
+            var IP = Q.socket.remoteAddress;
             var currentDateTime = getTime();
 
-            var logPOST = currentDateTime + ' [POST]:' + jsonString;
+            var CUST = ['烏龜', '兔子', '犀牛', '蝸牛', '海豚'];
+            var NCUST = CUST[Math.floor(Math.random() * CUST.length)];
+
+            var logPOST = currentDateTime + ' ' + NCUST + ':' + jsonString;
             //outfile('./dataS.txt', logPOST);
             outfile('./dataALL.txt', '[' + OTF + ']' + logPOST);
             console.log('[' + OTF + ']' + logPOST);
@@ -35,12 +38,12 @@ var server = http.createServer(function (Q, S) {
 
 
 
-                var logRESPONSE = currentDateTime + ' [RESP]:' + jsonString;
+                var logRESPONSE = currentDateTime + ' ' + IP + ':' + jsonString;
                 //outfile('./dataR.txt', logRESPONSE);
-                outfile('./dataALL.txt', '[' + OTF + ']' + logRESPONSE);
-                console.log('[' + OTF + ']' + logRESPONSE);
+                //outfile('./dataALL.txt', '[' + OTF + ']' + logRESPONSE);
+                //console.log('[' + OTF + ']' + logRESPONSE);
 
-                jsonString = '已收到POST:' + jsonString;
+                jsonString = NCUST + ':' + jsonString;
                 var msgSSS = JSON.stringify(jsonString);
 
                 S.write(msgSSS, 'UTF-8');
@@ -53,7 +56,7 @@ var server = http.createServer(function (Q, S) {
     }
 });
 
-server.listen(8081);
+server.listen(8081, '0.0.0.0');
 // Fexists('./dataR.txt', 'dataR.txt')
 // Fexists('./dataS.txt', 'dataS.txt')
 Fexists('./dataALL.txt', 'dataALL.txt')
@@ -74,7 +77,8 @@ function getTime() {
     var min = today.getMinutes().toString();
     var hour = today.getHours().toString();
 
-    var currentDateTime = today.getFullYear() + '/' + (today.getMonth() + 1) + '/' + today.getDate() + ' ' + paddingLeft(hour) + ':' + paddingLeft(min) + ':' + paddingLeft(Sec);
+    //var currentDateTime = today.getFullYear() + '/' + (today.getMonth() + 1) + '/' + today.getDate() + ' ' + paddingLeft(hour) + ':' + paddingLeft(min) + ':' + paddingLeft(Sec);
+    var currentDateTime = (today.getMonth() + 1) + '/' + today.getDate() + ' ' + paddingLeft(hour) + ':' + paddingLeft(min);
 
     return currentDateTime;
 }
