@@ -9,7 +9,7 @@
 <button type="text" id="SELECT">一鍵產檔
 </button>
 <input type="text" id="input">
-<label id="BACK">輸入write在案按鈕，會產出檔案data.json</label>
+<label id="BACK">12345</label>
 </br>
 
 
@@ -25,11 +25,13 @@
 		// 	TEXT: $(input).val()
 		// }
 
-
-		$.post("http://localhost:8081/", $(input).val(),
+		//"http://localhost:8081/"
+		//"http://192.168.8.100:8081/"
+		$.post("http://192.168.8.100:8081/", $(input).val(),
 			function (data) {
 				//alert("Data Loaded: " + data);
-				$(BACK).text(data);
+				//$(BACK).text(data);
+				$(BACK).append("</br>" + data);
 			});
 
 
