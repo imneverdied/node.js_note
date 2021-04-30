@@ -6,7 +6,7 @@ npm install express </br>
 npm install mssql </br>
 
 
-* query 查詢
+* query (查詢)</br>
 MSSQL </br>
 database:'DB'</br>
 datatable:'NODE'</br>
