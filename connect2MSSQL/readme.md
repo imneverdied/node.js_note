@@ -1,7 +1,7 @@
 connect2MSSQL  node.js連MSSQL
 ============
 前置</br>
-安裝node.js</br>
+安裝`node.js`</br>
 `npm install express` </br>
 `npm install mssql`</br>
 
