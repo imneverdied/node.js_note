@@ -10,7 +10,7 @@ datatable:'NODE'</br>
 data</br>
 ![image](https://imneverdied.github.io/node.js_note/pic/nodeSQL.png)</br>
 
-web
+web</br>
 ![image](https://imneverdied.github.io/node.js_note/pic/nodeSQLdata.png)</br>
 
 
