@@ -1,6 +1,7 @@
 connect2MSSQL
 ============
-
+前置</br>
+安裝node.js</br>
 npm install express </br>
 npm install mssql </br>
 
