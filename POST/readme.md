@@ -1,4 +1,4 @@
-node.js POST
+node.js POST聊天室
 ===========
 前置作業 </br>
 安裝   [node.js ](https://nodejs.org/en/)</br>
@@ -9,6 +9,7 @@ sever.js 後端server</br>
 初始設定dataALL.txt</br>
 接收前端網頁的POST</br>
 把POST RESPONSE記錄在dataALL.txt</br>
-回傳 已收到POST:[內容]顯示在前端網頁上
+回傳 RESPONSE</br>
+更新最近10筆聊天訊息前端畫面</br>
 
 同時顯示log在後端server CMD裡
