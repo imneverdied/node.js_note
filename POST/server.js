@@ -1,5 +1,6 @@
-var OTF = '✔';
+let OTF = '✔';
 var http = require('http');
+var SEQ = 0;
 var server = http.createServer(function (Q, S) {
     //Q:request S:response
 
@@ -7,47 +8,43 @@ var server = http.createServer(function (Q, S) {
         var jsonString = '';
 
         Q.on('data', function (data) {
+            //對編碼後的結果做解碼。
+            jsonString += decodeURI(data);
+            let IP = Q.socket.remoteAddress;
+            let currentDateTime = getTime();
+            //把data放進TEXT NAME裡
+            let TEXT = jsonString.substr(5, jsonString.indexOf('&', 0) - 5);
+            let NAME = jsonString.substr(jsonString.indexOf('NAME', 0) + 5, jsonString.length - jsonString.indexOf('NAME', 0) + 5);
 
-            jsonString += data;
-            var IP = Q.socket.remoteAddress;
-            var currentDateTime = getTime();
+            if (TEXT !== '' && NAME !== '') {
+                var logPOST = SEQ + ' ' + currentDateTime + ' ' + NAME + ':' + TEXT;
 
-            var CUST = ['烏龜', '兔子', '犀牛', '蝸牛', '海豚'];
-            var NCUST = CUST[Math.floor(Math.random() * CUST.length)];
-
-            var logPOST = currentDateTime + ' ' + NCUST + ':' + jsonString;
-            //outfile('./dataS.txt', logPOST);
-            outfile('./dataALL.txt', '[' + OTF + ']' + logPOST);
-            console.log('[' + OTF + ']' + logPOST);
-
+                outfile('./dataALL.txt', '[' + OTF + '] ' + logPOST);
+                //console.log('[' + OTF + '] ' + logPOST);
+            }
 
             Q.on('end', function () {
 
-                var currentDateTime = getTime();
+                let currentDateTime = getTime();
 
                 S.writeHead(200, {
                     'Content-Type': 'application/json',
                     'Access-Control-Allow-Origin': '*'
                 });
-                var XX = jsonString
 
-                //主要處理運算
-                // XX = Math.sqrt(XX)
-                // var YY = String(XX)
-                //主要處理運算
+                let ALLmsg = readData(currentDateTime)
 
+                var RTN = currentDateTime + ' ' + NAME + ':' + TEXT;
+                //let msgSSS = JSON.stringify(RTN);
 
-
-                var logRESPONSE = currentDateTime + ' ' + IP + ':' + jsonString;
-                //outfile('./dataR.txt', logRESPONSE);
-                //outfile('./dataALL.txt', '[' + OTF + ']' + logRESPONSE);
-                //console.log('[' + OTF + ']' + logRESPONSE);
-
-                jsonString = NCUST + ':' + jsonString;
-                var msgSSS = JSON.stringify(jsonString);
+                updateData(SEQ);
+                if (TEXT !== '' && NAME !== '') {
+                    FData = FData + RTN
+                    SEQ = SEQ + 1;
+                }
+                let msgSSS = JSON.stringify(FData)
 
                 S.write(msgSSS, 'UTF-8');
-                var msg = jsonString;
 
                 S.end();
 
@@ -57,8 +54,6 @@ var server = http.createServer(function (Q, S) {
 });
 
 server.listen(8081, '0.0.0.0');
-// Fexists('./dataR.txt', 'dataR.txt')
-// Fexists('./dataS.txt', 'dataS.txt')
 Fexists('./dataALL.txt', 'dataALL.txt')
 console.log('Node.js web server at port 8081 is running..')
 
@@ -72,17 +67,15 @@ function paddingLeft(str) {
 
 function getTime() {
     //取得時間
-    var today = new Date();
-    var Sec = today.getSeconds().toString();
-    var min = today.getMinutes().toString();
-    var hour = today.getHours().toString();
-
-    //var currentDateTime = today.getFullYear() + '/' + (today.getMonth() + 1) + '/' + today.getDate() + ' ' + paddingLeft(hour) + ':' + paddingLeft(min) + ':' + paddingLeft(Sec);
+    let today = new Date();
+    let Sec = today.getSeconds().toString();
+    let min = today.getMinutes().toString();
+    let hour = today.getHours().toString();
     var currentDateTime = (today.getMonth() + 1) + '/' + today.getDate() + ' ' + paddingLeft(hour) + ':' + paddingLeft(min);
+    //var currentDateTime = today.getFullYear() + '/' + (today.getMonth() + 1) + '/' + today.getDate() + ' ' + paddingLeft(hour) + ':' + paddingLeft(min) + ':' + paddingLeft(Sec);
 
     return currentDateTime;
 }
-
 
 function outfile(src, logTXT) {
     //把文字寫入檔案
@@ -120,3 +113,66 @@ function Fexists(src, name) {
 }
 
 
+function readData(datatime) {
+
+    const fs = require('fs')
+    var lastTXT = '';
+    fs.readFile('./dataALL.txt', function (error, data) {
+
+        if (error) {
+            console.log('讀取檔案失敗')
+            return
+        }
+        let FileString = data.toString();
+
+        // datatime = '[✔]4/28 09:40'
+        datatime = '[✔]' + datatime;
+        let start = FileString.indexOf(datatime, 0);
+        let end = FileString.length;
+
+        lastTXT = FileString.substr(start, end);
+
+    })
+
+    return lastTXT;
+}
+
+
+var FData = '';
+function updateData(SEQ) {
+    //根據SEQ讀取未顯示的訊息回傳
+    var fs = require('fs')
+
+    fs.readFile('./dataALL.txt', function (error, data) {
+
+        if (error) {
+            console.log('讀取檔案失敗')
+            return
+        }
+        var FileString = data.toString();
+        const MYTXT = FileString.split('\r\n');
+        const MMT = []
+        FData = ''
+        let UPData = '';
+        for (let i = 0; i < MYTXT.length - 1; i++) {
+            const A = MYTXT[i].split(' ');
+            MMT.seq = A[1];
+            MMT.date = A[2];
+            MMT.time = A[3];
+            const B = A[4].split(':')
+            MMT.NAME = B[0];
+            MMT.TXT = B[1];
+
+            if (parseInt(MMT.seq) <= SEQ && parseInt(MMT.seq) >= (SEQ - 10)) {
+
+                UPData = MMT.date + ' ' + MMT.time + ' ' + MMT.NAME + ':' + MMT.TXT + '|'
+            }
+            FData = FData + UPData
+        }
+
+    })
+
+    //return FData;
+    console.log(FData);
+
+}
