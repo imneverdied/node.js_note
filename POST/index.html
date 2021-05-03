@@ -1,52 +1,65 @@
-<html>
 <header>
-
 
 </header>
 
-
-
-<button type="text" id="SELECT">一鍵產檔
-</button>
+<input type="text" id="myname" size="10">
 <input type="text" id="input">
-<label id="BACK">12345</label>
+<button type="text" id="SELECT">送出
+</button>
+</br>
+<label id="BACK"></label>
 </br>
 
-
+<body onload="reload()"></body>
 
 </html>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-
-
 	$(SELECT).click(function () {
-
-		// var DT = {
-		// 	TEXT: $(input).val()
-		// }
-
-		//"http://localhost:8081/"
-		//"http://192.168.8.100:8081/"
-		$.post("http://192.168.8.100:8081/", $(input).val(),
+		var DT = {
+			TEXT: $(input).val(),
+			NAME: $(myname).val()
+		}
+		// "http://localhost:8081/"
+		// "http://192.168.8.100:8081/"
+		//"http://192.168.137.1:8080"
+		$.post("http://localhost:8081/", DT,
 			function (data) {
-				//alert("Data Loaded: " + data);
-				//$(BACK).text(data);
-				$(BACK).append("</br>" + data);
+				//$(BACK).append("</br>" + data);
+				var STRING = [];
+				STRING = data.split('|');
+				var OUTSTR = '';
+				for (let i = 0; i < STRING.length; i++) {
+					OUTSTR = OUTSTR + STRING[i] + '</br>'
+				}
+				$(BACK).html(OUTSTR);
 			});
 
 
-		// 		$.ajax({
-		// 		url: 'http://localhost:8081/',
-		// 		headers: {
-		// 			'Content-Type':'application/json',
-		// 		},
-		// 		method: 'POST',
-		// 		dataType: 'json',
-		// 		data: $(input).val(),
-		// 		success: function(data){
-		// 		   console.log(data);
-		// 		}
-		//   });
-
 	});
+
+	function reload() {
+		var DT = {
+			TEXT: '',
+			NAME: ''
+		}
+		// "http://localhost:8081/"
+		// "http://192.168.8.100:8081/"
+		//"http://192.168.137.1:8080"
+		$.post("http://192.168.137.1:8081/", DT,
+			function (data) {
+				//$(BACK).append("</br>" + data);
+				var STRING = [];
+				STRING = data.split('|');
+				var OUTSTR = '';
+				for (let i = 0; i < STRING.length; i++) {
+					OUTSTR = OUTSTR + STRING[i] + '</br>'
+				}
+				$(BACK).html(OUTSTR);
+			});
+		setTimeout("reload()", 1000);
+
+	}
+
+
 </script>
