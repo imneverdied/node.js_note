@@ -8,8 +8,8 @@ node.js POST聊天室
 sever.js 後端server</br>
 初始設定dataALL.txt</br>
 接收前端網頁的POST</br>
-把POST RESPONSE記錄在dataALL.txt</br>
-回傳 RESPONSE</br>
-更新最近10筆聊天訊息前端畫面</br>
+把data記錄在dataALL.txt</br>
+回傳 RESPONSE data</br>
+更新最近10筆聊天訊息到前端畫面</br>
 
 同時顯示log在後端server CMD裡
